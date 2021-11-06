@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import Dice from "./dice.svelte";
+  import Candidate from "./candidate.svelte";
   import Count from "./count.svelte";
   import { rank, random } from "./util";
   import { tweened } from "svelte/motion";
@@ -46,6 +47,8 @@
   };
 </script>
 
+<Candidate />
+
 {#await counter$}
   <Count count={$count} />
 {/await}
@@ -62,7 +65,7 @@
   :global(body) {
     width: 100vw;
     height: 100vh;
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
   }
 </style>
