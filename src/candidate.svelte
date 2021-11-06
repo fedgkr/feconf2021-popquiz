@@ -2,18 +2,25 @@
     import xlsx from "xlsx";
 
     let inputFile;
-    const onChange = (event) => {
-        const { target } = event.target.ç;
-        var reader = new FileReader();
-        reader.onload = function () {
-            var fileData = reader.result;
-            var wb = xlsx.read(fileData, { type: "binary" });
-            wb.SheetNames.forEach(function (sheetName) {
-                var rowObj = xlsx.utils.sheet_to_json(wb.Sheets[sheetName]);
-                console.log(JSON.stringify(rowObj));
-            });
-        };
-        reader.readAsBinaryString(target.files[0]);
+    const convertFileToxlsx = (file) =>
+        new Promise((resovle) => {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const fileData = reader.result;
+                const wb = xlsx.read(fileData, { type: "binary" });
+                wb.SheetNames.forEach(function (sheetName) {
+                    const rowObj = xlsx.utils.sheet_to_json(
+                        wb.Sheets[sheetName]
+                    );
+                    resovle(rowObj);
+                });
+            };
+            reader.readAsBinaryString(file);
+        });
+    const onChange = async (event) => {
+        const file = event.target.files[0];
+        const peoples = file && (await convertFileToxlsx(file));
+        console.log(peoples)
     };
 </script>
 
